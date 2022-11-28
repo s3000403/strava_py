@@ -7,3 +7,12 @@ def process_activities(activities_path):
     # Further processing (to come)
     
     return activities
+
+def add_activities( raw_data, activities ):
+    combined = raw_data.merge(
+                              right=activities,
+                              how='outer',
+                              left_on='actid',
+                              right_on='Activity ID',
+                              )
+    return combined

@@ -1,5 +1,6 @@
 import glob
 import math
+import os
 from multiprocessing import Pool
 
 import fit2gpx
@@ -20,12 +21,14 @@ def process_file(fpath):
 def process_gpx(gpxfile):
     with open(gpxfile, encoding="utf-8") as f:
         activity = gpxpy.parse(f)
+    activityid = int(os.path.splitext(os.path.basename(gpxfile))[0])
 
     lon = []
     lat = []
     ele = []
     time = []
     name = []
+    actid = []
     dist = []
 
     for track in activity.tracks:
@@ -43,6 +46,7 @@ def process_gpx(gpxfile):
                 ele.append(z)
                 time.append(t)
                 name.append(gpxfile)
+                actid.append(activityid)
                 d = d0 + math.sqrt(math.pow(x - x0, 2) + math.pow(y - y0, 2))
                 dist.append(d)
                 x0 = x
@@ -50,8 +54,8 @@ def process_gpx(gpxfile):
                 d0 = d
 
     df = pd.DataFrame(
-        list(zip(lon, lat, ele, time, name, dist)),
-        columns=["lon", "lat", "ele", "time", "name", "dist"],
+        list(zip(lon, lat, ele, time, name, actid, dist)),
+        columns=["lon", "lat", "ele", "time", "name", "actid", "dist"],
     )
 
     return df

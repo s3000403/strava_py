@@ -69,16 +69,20 @@ def main():
     from stravavis.plot_facets import plot_facets
     from stravavis.plot_landscape import plot_landscape
     from stravavis.plot_map import plot_map
-    from stravavis.process_activities import process_activities
+    from stravavis.process_activities import process_activities, add_activities
     from stravavis.process_data import process_data
 
     print("Processing data...")
+    # Read the raw gpx data
     df = process_data(args.path)
 
     activities = None
     if args.activities_path:
         print("Processing activities...")
+        # Read the activities csv file
         activities = process_activities(args.activities_path)
+        # Combine the activities data with the gpx data
+        df = add_activities( df, activities )
 
     print("Plotting facets...")
     outfile = f"{args.output_prefix}-facets.png"
