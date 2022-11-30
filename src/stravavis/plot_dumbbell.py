@@ -15,17 +15,8 @@ from plotnine import (
     ylab
 ) 
 
-def plot_dumbbell(activities, year_min=None, year_max=None, local_timezone=None,
+def plot_dumbbell(activities, year_min=None, year_max=None,
                   fig_height = 34, fig_width = 34, output_file='dumbbell.png'):
-    
-    # Convert activity start date to datetime
-    activities['Activity Date'] = pd.to_datetime(activities['Activity Date'])
-    
-    # Convert to local timezone (if given)
-    if local_timezone:
-        activities['Activity Date'] = (pd.to_datetime(activities['Activity Date'])
-                                       .dt.tz_localize(tz='UTC', nonexistent='NaT', ambiguous='NaT')
-                                       .dt.tz_convert(local_timezone))
     
     # Get activity start and end times
     activities['start'] = activities['Activity Date']

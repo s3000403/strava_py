@@ -80,7 +80,7 @@ def main():
     if args.activities_path:
         print("Processing activities...")
         # Read the activities csv file
-        activities = process_activities(args.activities_path)
+        activities = process_activities(args.activities_path, args.local_timezone)
         # Combine the activities data with the gpx data
         df = add_activities( df, activities )
 
